@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Temperature Sensor</title>
+  <meta charset="utf-8" />
+</head>
+
+<body>
+  <canvas id="myChart" height="100%"></canvas>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.bundle.min.js"></script>
+  <script>
+    var data = [];
+    chartUpdate(5);
+
+    var socket = io();
+    socket.on('new_temperature', function(temperature) {
+      chartUpdate(temperature);
+    });
+
+    function chartUpdate(temperature) {
+      data.push(temperature);
+      $('#myChart').replaceWith('<canvas id="myChart" height="100%"></canvas>');
+      var ctx = document.getElementById("myChart").getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+          datasets: [{
+            label: 'BoubiHome\'s temperature',
+            data: data,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255,99,132,1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>
