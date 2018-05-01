@@ -6,8 +6,8 @@ var express = require('express'),
   chart = require('chart'),
   path = require('path');
 
-//app.set('port', process.env.PORT);
-app.set('port', 8080);
+app.set('port', process.env.PORT);
+//app.set('port', 8080);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function(req, res) {
