@@ -22,9 +22,9 @@
     });
 
     function chartUpdate(temperature) {
-      var d = new Date(year, month, day, hours, minutes);
+      var d = new Date();
       data.push(temperature);
-      timeLine.push(d);
+      timeLine.push(d.getHours() + "-" + d.getMinutes());
       $('#myChart').replaceWith('<canvas id="myChart" height="100%"></canvas>');
       var ctx = document.getElementById("myChart").getContext('2d');
       var myChart = new Chart(ctx, {
