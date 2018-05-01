@@ -23,7 +23,7 @@ app.get('/temperature/:temperature', function(req, res) {
   io.sockets.on('connection', function(socket, data) {
     socket.broadcast.emit('new_temperature', req.params.temperature);
   });
-  //res.redirect('/');
+  res.redirect('/');
 });
 
 server.listen(app.get('port'), function() {
