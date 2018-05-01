@@ -19,9 +19,9 @@ app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
-app.post('/temperature', function(req, res) {
+app.get('/temperature/:temperature', function(req, res) {
   io.sockets.on('connection', function(socket, data) {
-    socket.broadcast.emit('new_temperature', req.body.temperature);
+    socket.broadcast.emit('new_temperature', req.params.temperature);
   });
   //res.redirect('/');
 });
