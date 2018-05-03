@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>TempSensor</title>
+</head>
+
+<body>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var temperature = <%= temp %>;
+    var socket = io();
+
+    socket.emit('new_temperature', temperature);
+  </script>
+</body>
+
+</html>

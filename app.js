@@ -4,27 +4,28 @@ var express = require('express'),
   io = require('socket.io').listen(server),
   ent = require('ent'),
   chart = require('chart'),
-  path = require('path'),
-  bodyParser = require('body-parser');
+  path = require('path');
 
 app.set('port', process.env.PORT);
 //app.set('port', 8080);
 
-app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
-  extended: true
-}));
-
 app.use(express.static(path.join(__dirname, 'public')));
+
+io.sockets.on('connection', function(socket, data) {
+  socket.on('new_temperature', function(temperature) {
+    socket.broadcast.emit('new_temperature', temperature);
+  });
+});
+
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
-});
+})
 
-app.get('/temperature/:temperature', function(req, res) {
-  io.sockets.on('connection', function(socket, data) {
-    socket.broadcast.emit('new_temperature', req.params.temperature);
+.get('/:temperature', function(req, res) {
+  res.render('temp.ejs', {
+    temp: req.params.temperature
   });
-  res.redirect('/');
-});
+})
 
 server.listen(app.get('port'), function() {
   console.log('Node server is running on port', app.get('port'));
